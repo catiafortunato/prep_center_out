@@ -123,6 +123,7 @@ class Runner:
         print('lc shape', np.array(lc).shape)
         plt.plot(np.array(lc)[:,0,0], label = 'loss', color = 'k')
         plt.plot(np.array(lc)[:,0,1], label = 'output loss', color = 'b')
+        plt.plot(np.array(lc)[:,0,2], label = 'decorr penalization', color = 'g')
         plt.xlabel("Epoch")
         plt.ylabel("Loss")
         plt.title('Training trials: ' + str(training_trial))
@@ -345,7 +346,7 @@ class Runner:
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), self._config.clipgrad)
                 self.optimizer.step()
 
-                train_running_loss = [loss.detach().item(), loss_train.detach().item()]
+                train_running_loss = [loss.detach().item(), loss_train.detach().item(), regcorr.detach().item()]
 
                 # values to print
                 toprint = OrderedDict()
