@@ -132,7 +132,7 @@ if __name__ == "__main__":
     import sys
     import matplotlib.pyplot as plt
 
-    #sys.argv = ['simulation/run_pipeline.py', '100060', '1', '-c', 'base_config.yaml', '-file', 'Chewie_CO_CS_2016-10-14'] #comment out if using run.sh
+    sys.argv = ['simulation/run_pipeline.py', '100060', '0', '-c', 'decorrelated_config.yaml', '-file', 'Chewie_CO_CS_2016-10-14'] #comment out if using run.sh
 
     starttime = time.time()
     

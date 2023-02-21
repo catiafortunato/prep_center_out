@@ -293,7 +293,6 @@ class Runner:
             optimizer.load_state_dict(temp['optimizer_state_dict'])
 
         return optimizer
-            
 
     def train(self):
         """ 
@@ -331,8 +330,16 @@ class Runner:
                 ## term 2: rates
                 reg1act = self._config.beta1*rl1.pow(2).mean()
 
+
+                ## term 3: pairwise corr
+                if self._config.penalize_corr:
+                    rl1_flatten = torch.flatten(rl1, start_dim=0, end_dim=1).T
+                    regcorr = self._config.delta1*torch.corrcoef(rl1_flatten).pow(2).mean()
+                else:
+                    regcorr = 0.0
+
                 #calculate overall loss
-                loss = loss_train+reg1in+reg1rec+regout+reg1act
+                loss = loss_train+reg1in+reg1rec+regout+reg1act+regcorr
                 loss.backward()
 
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), self._config.clipgrad)
@@ -344,6 +351,7 @@ class Runner:
                 toprint = OrderedDict()
                 toprint['Loss_total'] = loss
                 toprint['Loss'] = loss_train
+                toprint['R_l1corr'] = regcorr
                 toprint['R_l1in'] = reg1in
                 toprint['R_l1rec'] = reg1rec
                 toprint['R_l1rate'] = reg1act

@@ -19,8 +19,9 @@ regularization:
   alpha1: 0.001
   beta1: 0.5
   clipgrad: 0.2
-  delta: 0.5
+  delta1: 0.5
   gamma1: 0.001
+  penalize_corr: true
 seed: 20
 simulation:
   sim_number: null

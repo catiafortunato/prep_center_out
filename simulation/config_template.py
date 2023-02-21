@@ -113,11 +113,17 @@ class ConfigTemplate:
                 ],
             ),
             config_field.Field(
-                name='delta',
-                types=[float],
+                name='delta1',
+                types=[float, type(None)],
                 requirements=[
                     lambda x: x >= 0
                 ],
+                default = 0.5
+            ),
+            config_field.Field(
+                name='penalize_corr',
+                types=[bool, type(None)],
+                default = False
             ),
         ],
         level=['regularization'],
