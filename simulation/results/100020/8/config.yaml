@@ -1,0 +1,33 @@
+data:
+  datadir: data/Chewie_CO_CS_2016-10-14_pos_30ms
+  datafile: Chewie_CO_CS_2016-10-14_pos_30ms
+gpu_id: 0
+logging:
+  log_epochs: null
+  log_interval: null
+  log_model: false
+neurons:
+  g1: 1.2
+  gin: 0.1
+  gout: 0.1
+  n1: 1000
+  noise: 0.0
+  p_recurrent: 1.0
+  tau: 0.05
+outdir: results/100020/8/
+regularization:
+  alpha1: 0.001
+  beta1: 0.5
+  clipgrad: 0.2
+  delta1: 0.5
+  gamma1: 0.001
+  penalize_corr: true
+seed: 100020
+simulation:
+  sim_number: 8
+timestamp: 2023-02-22-16-59-34
+training:
+  batch_size: 64
+  lr: 0.001
+  optimizer: Adam
+  training_trials: 2500

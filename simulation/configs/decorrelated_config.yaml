@@ -12,14 +12,14 @@ neurons:
   gout: 0.1
   n1: 1000
   noise: 0.0
-  p_recurrent: 0.1
+  p_recurrent: 1.0
   tau: 0.05
 outdir: null
 regularization:
   alpha1: 0.001
   beta1: 0.5
   clipgrad: 0.2
-  delta1: 0.5
+  delta1: 0.5 # decorrelation factor 
   gamma1: 0.001
   penalize_corr: true
 seed: 20
@@ -29,5 +29,5 @@ timestamp: null
 training:
   optimizer: Adam
   batch_size: 64
-  lr: 0.0001
-  training_trials: 1000
+  lr: 0.001
+  training_trials: 2500

@@ -320,7 +320,8 @@ class Runner:
                 output,rl1 = self.model(stimulus)
                 
                 #calculate loss
-                loss = self.criterion(output[50:], target[50:]) # only look at time points > 50dt  
+                #loss = self.criterion(output[50:], target[50:]) # only look at time points > 50dt  
+                loss = self.criterion(output, target)
                 loss_train = loss.mean() 
 
                 #add regularization
