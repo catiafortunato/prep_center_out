@@ -190,7 +190,7 @@ class Runner:
         # save it
         output = testout.cpu().detach().numpy().transpose(1,0,2)
         activity1 = testl1.cpu().detach().numpy().transpose(1,0,2)
-        
+        test_target = test_target.cpu().detach().numpy().transpose(1,0,2)
 
         return self._config.datadir, output, activity1, test_target, test_labels
 
@@ -210,7 +210,7 @@ class Runner:
         test_data = Task_Dataset(self.PROJ_DIR + self._config.datadir, training=False)
         test_stimulus, test_target, test_labels = test_data.get_stimulus_target()
         test_stimulus = test_stimulus.transpose(1,0).type(self.dtype)
-        test_target = test_target.transpose(1,0).type(self.dtype)
+        #test_target = test_target.transpose(1,0).type(self.dtype)
         
         return test_stimulus, test_target, test_labels
 

@@ -37,11 +37,11 @@ def test_model(config_dir):
     runner = Runner(config, rnn_defs.PROJ_DIR, training = False)
 
     #test
-    datadir, output, activity1 = runner.run_test()
+    datadir, output, activity1, target_output, labels = runner.run_test()
 
-    return datadir, output, activity1
+    return datadir, output, activity1, target_output, labels
 
-def model_to_pyaldata ( ourdir, session: str = None):
+def model_to_pyaldata ( outdir, session: str = None):
 #def model_to_pyaldata ():
     """
     Converts model results to Pyaldata format.
@@ -62,27 +62,29 @@ def model_to_pyaldata ( ourdir, session: str = None):
     params = Task_Params(datadir)
 
     #outdir = '/home/cf620/git/base_centerout_rnn/simulation/results/100028/5/'
-    datadir, output, activity = test_model(outdir)
+    datadir, output, activity, target_output, labels = test_model(outdir)
     # columns needed for pyaldata
-    column_names = ['session', 'target_id', 'trial_id', 'bin_size', 
+    column_names = ['session', 'target_id','trial_id', 'bin_size', 
         'idx_trial_start', 'idx_target_on', 'idx_go_cue', 'idx_trial_end', 
-        'MCx_rates']
+        'MCx_rates', 'pos', 'target_output', 'labels ']
     df = pd.DataFrame(columns = column_names)
     ntrials = output.shape[0]
     tsteps = params.tsteps
     #populate columns
-    df['target_id'] = data.labels
+    #df['target_id'] = data.labels
     df['trial_id'] = range(ntrials)
     #df['seed'] = seed
     #df['sim'] = sim
     df['session'] = session or 'init'
     df['bin_size'] = params.dt
     df['idx_trial_start'] = 0
-    df['idx_target_on'] = 0
-    df['idx_go_cue'] = 300
+    df['idx_target_on'] = 2
+    df['idx_go_cue'] = 7
     df['idx_trial_end'] = tsteps-1
     df['MCx_rates'] =[activity[i,:] for i in range(ntrials)] 
     df['pos'] = [output[i,:] for i in range(ntrials)] 
+    df['target_output'] = [target_output[:,i,:] for i in range(ntrials)]
+    df['labels'] = labels
     return df
 
 if __name__ == "__main__":
@@ -90,8 +92,8 @@ if __name__ == "__main__":
     import os
     os.environ['KMP_DUPLICATE_LIB_OK']='True'
     
-    for i in range(1,6):
-        outdir = '/home/cf620/git/base_centerout_rnn/simulation/results/100028/'+str(i)+'/'
+    for i in range(8,9):
+        outdir = '/home/cf620/git/prep_center_out/simulation/results/100020/'+str(i)+'/'
         print(outdir)
         df = model_to_pyaldata(outdir)
 
