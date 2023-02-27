@@ -185,13 +185,14 @@ class Runner:
         """
         if not model_loaded:
             self.model = self._load_model(self._outdir, self.model)
-        testout, testl1 = self.test_current_model()
+        testout, testl1, test_target, test_labels = self.test_current_model()
 
         # save it
         output = testout.cpu().detach().numpy().transpose(1,0,2)
         activity1 = testl1.cpu().detach().numpy().transpose(1,0,2)
+        
 
-        return self._config.datadir, output, activity1
+        return self._config.datadir, output, activity1, test_target, test_labels
 
     def _setup_testdata(self):
         """ 
@@ -207,11 +208,11 @@ class Runner:
         """
         # get data
         test_data = Task_Dataset(self.PROJ_DIR + self._config.datadir, training=False)
-        test_stimulus, test_target = test_data.get_stimulus_target()
+        test_stimulus, test_target, test_labels = test_data.get_stimulus_target()
         test_stimulus = test_stimulus.transpose(1,0).type(self.dtype)
         test_target = test_target.transpose(1,0).type(self.dtype)
         
-        return test_stimulus, test_target
+        return test_stimulus, test_target, test_labels
 
     def test_current_model(self, stim_test = None):
         """ 
@@ -225,13 +226,13 @@ class Runner:
         self.model.eval()
 
         if stim_test is None:
-            stim_test, _ = self._setup_testdata()
+            stim_test, test_target, test_labels = self._setup_testdata()
 
         # run model
         with torch.no_grad():
             testout, testl1 = self.model(stim_test)
 
-        return testout, testl1
+        return testout, testl1, test_target, test_labels
 
     def _load_model(self, dir, model):
         """ 

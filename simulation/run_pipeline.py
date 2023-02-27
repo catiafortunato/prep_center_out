@@ -131,8 +131,9 @@ if __name__ == "__main__":
     import time
     import sys
     import matplotlib.pyplot as plt
+    import matplotlib
 
-    # sys.argv = ['simulation/run_pipeline.py', '100060', '0', '-c', 'decorrelated_config.yaml', '-file', 'Chewie_CO_CS_2016-10-14'] #comment out if using run.sh
+    # sys.argv = ['simulation/run_pipeline.py', '100020', '0', '-c', 'decorrelated_config.yaml', '-file', 'Chewie_CO_CS_2016-10-14'] #comment out if using run.sh
 
     starttime = time.time()
     
@@ -143,16 +144,18 @@ if __name__ == "__main__":
     config = set_sim_metadata(config, args)
     runner = run(config)
 
-    _, output, _ = runner.run_test(model_loaded = True)
+    _, output, _, _,labels = runner.run_test(model_loaded = True)
 
     # check training
     plt.figure()
     ax = plt.gca()
     y_pos = rnn_defs.MAX_Y_POS
 
+    cmap = matplotlib.colormaps.get_cmap('plasma')
+
     # graph positions
     for i in range(output.shape[0]):
-        ax.plot(output[i,:,0],output[i,:,1], c = 'k',
+        ax.plot(output[i,:,0],output[i,:,1], c = cmap((labels[i]+1)/8),
                 linestyle = '-', linewidth = 1, marker = None)
         ax.set_aspect(1)
         ax.set_xlim([-y_pos-2,y_pos+2])

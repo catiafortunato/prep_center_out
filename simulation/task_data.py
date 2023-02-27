@@ -37,6 +37,7 @@ class Task_Dataset(Dataset):
         self.stimulus = torch.from_numpy(self.data['stimulus'])
         self.target = torch.from_numpy(self.data['target'][:,:,:self.output_dim])
         self.labels = torch.from_numpy(self.data['target_param'])
+        self.target_id = self.data['target_param']
         
     def __len__(self):
         return self.stimulus.shape[0]
@@ -58,5 +59,5 @@ class Task_Dataset(Dataset):
         return self.target
 
     def get_stimulus_target(self):
-        return self.stimulus, self.target
+        return self.stimulus, self.target, self.target_id
 
