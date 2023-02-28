@@ -14,6 +14,6 @@ do
     for seed in ${seeds[@]:$((i*incr)):$(((i+1)*incr))}
     do  
         #simulate standard networks
-        python simulation/run_pipeline.py 100006$seed 1 -c base_config.yaml -file Chewie_CO_CS_2016-10-14
+        python simulation/run_pipeline.py 10002$seed 1 -c decorrelated_config.yaml -file Chewie_CO_CS_2016-10-14_vel_30ms
     done'
 done

@@ -149,17 +149,23 @@ if __name__ == "__main__":
     # check training
     plt.figure()
     ax = plt.gca()
-    y_pos = rnn_defs.MAX_Y_POS
+    #y_pos = rnn_defs.MAX_Y_POS
+
 
     cmap = matplotlib.colormaps.get_cmap('plasma')
 
     # graph positions
     for i in range(output.shape[0]):
-        ax.plot(output[i,:,0],output[i,:,1], c = cmap((labels[i]+1)/8),
+
+        pos_bin_x = output[i,:,0]*0.03
+        pos_bin_y = output[i,:,1]*0.03
+        output_posx = np.cumsum(pos_bin_x)
+        output_posy = np.cumsum(pos_bin_y)
+        ax.plot(output_posx,output_posy, c = cmap((labels[i]+1)/8),
                 linestyle = '-', linewidth = 1, marker = None)
         ax.set_aspect(1)
-        ax.set_xlim([-y_pos-2,y_pos+2])
-        ax.set_ylim([-y_pos-2,y_pos+2])
+        #ax.set_xlim([-y_pos-2,y_pos+2])
+        #ax.set_ylim([-y_pos-2,y_pos+2])
     ax.set_axis_off()
     plt.savefig(config.outdir + "output.png")
 
